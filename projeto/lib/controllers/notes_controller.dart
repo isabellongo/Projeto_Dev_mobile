@@ -8,6 +8,7 @@ class NotesController extends ChangeNotifier {
   List<Note> notes = [];
   bool loading = true;
 
+
   NotesController(this.notesRepository) {
     load();
   }
@@ -29,7 +30,7 @@ class NotesController extends ChangeNotifier {
   Future<bool> save(String text) async {
     final note = Note(
       id: text,
-      title: 'Scanned at ${DateTime.now()}',
+      title: 'Escaneado em ${DateTime.now()}',
       text: text,
       lastEditedDateTime: DateTime.now(),
     );
@@ -45,7 +46,7 @@ class NotesController extends ChangeNotifier {
     return Future.value(false);
   }
 
-  Future<void> editNote(int index) async {
+  Future<void> editNote(int index, String title) async {
     final note = notes[index].copyWith(title: notes[index].title, text: notes[index].text);
     notes.replaceRange(index, index + 1, [note]);
   
