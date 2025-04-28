@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './note_widget.dart';
+import './add_note_dialog.dart';
 
 class TileNoteWidget extends NoteWidget {
   const TileNoteWidget({
@@ -15,8 +16,12 @@ class TileNoteWidget extends NoteWidget {
     return ListTile(
       contentPadding: const EdgeInsets.all(20),
       leading: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: editNote,
+        icon: const Icon(Icons.edit),
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (_) => AddNoteDialog(),
+        ),
       ),
       title: Text(titleNote),
       trailing: IconButton(
