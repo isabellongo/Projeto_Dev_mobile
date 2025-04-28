@@ -17,13 +17,12 @@ class TileNoteWidget extends NoteWidget {
       contentPadding: const EdgeInsets.all(20),
       leading: IconButton(
         icon: const Icon(Icons.edit),
-        onPressed: () => showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (_) => AddNoteDialog(),
-        ),
+        onPressed: () => {
+          openDialog(context),
+        },
       ),
-      title: Text(titleNote),
+      title: Text(textNote),
+      subtitle: Text(titleNote),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
         onPressed: deleteNote,
@@ -33,4 +32,32 @@ class TileNoteWidget extends NoteWidget {
       ),
     );
   }
+
+  Future openDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title:  Text(
+                    'Editar arquivo',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+          content: TextField(
+            autofocus:true,
+            decoration: InputDecoration(hintText: ('Digite o nome'))
+          ),
+          actions: [
+            TextButton(
+              child: Text('SUBMIT'),
+              onPressed: () => submit(context),
+           )
+         ],
+        )
+      );
+
+  void submit(BuildContext context){
+   // Navigator.of(context).pop()
+  }
+  
 }
+
+
+
