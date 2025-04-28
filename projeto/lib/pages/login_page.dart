@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,7 +22,8 @@ class _LoginPageState extends State<LoginPage> {
       // Simular login
       print("Email: $email, Password: $password");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logged in successfully!')),
+        SnackBar(content: Text('Login realizado com sucesso!')
+        )
       );
 
       context.go('/notes');
@@ -31,35 +33,51 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your email' : null,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 40, color: Colors.deepOrange),
+                text: 'PDF',
+                children: const <TextSpan>[
+                  TextSpan(text: 'Scanner', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 60)),
+                ],
               ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Password'),
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your password' : null,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter your email' : null,
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(labelText: 'Password'),
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter your password' : null,
+                  ),
+                  SizedBox(height: 24),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(Colors.deepOrangeAccent)
+                    ),
+                    onPressed: _login,
+                    child: Text('Login'),
+                  )
+                ],
               ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _login,
-                child: Text('Login'),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
