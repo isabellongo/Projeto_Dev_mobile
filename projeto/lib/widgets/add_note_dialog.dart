@@ -27,7 +27,7 @@ class AddNoteDialog extends StatelessWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -83,7 +83,7 @@ class AddNoteDialog extends StatelessWidget {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await controller.save(_title.text);
-                          if (context.mounted) context.pop(context);
+                          if (context.mounted) context.go('/camera');
                         }
                       },
                       label: const Text('Salvar'),
