@@ -83,7 +83,7 @@ class AddNoteDialog extends StatelessWidget {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await controller.save(_title.text);
-                          if (context.mounted) context.pop(context);
+                          if (context.mounted) context.go('/camera');
                         }
                       },
                       label: const Text('Salvar'),

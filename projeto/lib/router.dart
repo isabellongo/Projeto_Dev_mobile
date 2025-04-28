@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'pages/login_page.dart';
 import 'pages/notes_page.dart';
 import 'pages/full_note_page.dart';
+import 'pages/camera_page.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -25,6 +26,10 @@ final router = GoRouter(
 
         return FullNotePage(noteId: noteId);
       },
+    ),
+    GoRoute(
+      path: '/camera',
+      builder: (context, state) => const CameraPage(),
     ),
   ],
 );
