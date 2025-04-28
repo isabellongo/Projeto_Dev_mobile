@@ -74,7 +74,7 @@ class AddNoteDialog extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   child: SizedBox(
                     width: double.infinity,
                     height: 60,

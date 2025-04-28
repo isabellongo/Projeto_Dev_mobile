@@ -17,7 +17,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Notes'),
+        title: const Text('Todas as '),
       ),
       body: Consumer<NotesController>(builder: (context, controller, _) {
         final notes = controller.notes;
