@@ -14,6 +14,29 @@ class TileNoteWidget extends NoteWidget {
     required super.deleteNote,
   });
 
+  void _confirmDelete(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Confirmar exclusão'),
+      content: const Text('Tem certeza de que deseja excluir esta nota?'),
+      actions: [
+        TextButton(
+          child: const Text('Cancelar'),
+          onPressed: () => Navigator.of(ctx).pop(),
+        ),
+        TextButton(
+          child: const Text('Excluir'),
+          onPressed: () {
+            Navigator.of(ctx).pop(); // fecha o diálogo
+            deleteNote(); // chama a função de deletar
+          },
+        ),
+      ],
+    ),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -31,7 +54,7 @@ class TileNoteWidget extends NoteWidget {
       subtitle: Text(titleNote),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
-        onPressed: deleteNote,
+        onPressed: () => _confirmDelete(context),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

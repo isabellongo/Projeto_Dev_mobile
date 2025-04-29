@@ -12,7 +12,7 @@ class CameraPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white),
-          onPressed: () => context.go('/notes'), // Volta à tela anterior
+          onPressed: () => context.go('/notes'), 
         ),
       ),
       body: Center(
@@ -20,7 +20,6 @@ class CameraPage extends StatelessWidget {
           iconSize: 80,
           icon: const Icon(Icons.camera_alt, color: Colors.white),
           onPressed: () {
-            // Aqui futuramente você chamaria a função da câmera
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Simulando foto...')),
             );
