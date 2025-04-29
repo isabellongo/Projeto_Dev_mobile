@@ -9,3 +9,7 @@ A parte feita pela aluna Isabel foi: \
 A parte feita pelo aluno Danilo foi: Página de login, Router e Controller \
 E, por fim, a parte feita pelo aluno Paulo foi: edição e organização das notas, alterações no controlador \
 ## Instalação
+1. Abra a pasta do projeto no Terminal
+2. Digite o comando para instalar as dependências: flutter pub get
+3. Para rodar o projeto em um emulador ou smartphone conectado ao computador, digite: flutter run
+4. Para gerar um arquivo de instalação (.apk), digite flutter build apk
