@@ -6,10 +6,10 @@ Feito pelos alunos Isabel Cristina Kavalco Longo, Paulo Adriano Lupepsa Maia e D
 O projeto consiste em um aplicativo mobile de escaneamento de pdfs, em que o usuário pode fotografar uma imagem de uma folha de papel e ter a opção de transformar ele em pdf, e capturar os dados escritos nele posteriormente. O padrão de projeto utilizado será o MVVM, como está descrito na página abaixo:\
 https://docs.flutter.dev/app-architecture/guide#mvvm \
 A parte feita pela aluna Isabel foi: \
-A parte feita pelo aluno Danilo foi: Página de login, Router e Controller \
-E, por fim, a parte feita pelo aluno Paulo foi: edição e organização das notas, alterações no controlador \
+A parte feita pelo aluno Danilo foi: Página de login, Router e Controller. \
+E, por fim, a parte feita pelo aluno Paulo foi: edição e organização das notas, alterações no controlador.
 ## Instalação
-1. Abra a pasta do projeto no Terminal
-2. Digite o comando para instalar as dependências: flutter pub get
-3. Para rodar o projeto em um emulador ou smartphone conectado ao computador, digite: flutter run
-4. Para gerar um arquivo de instalação (.apk), digite flutter build apk
+1. Abra a pasta do projeto no Terminal: `cd path/to/Projeto_Dev_Mobile/projeto`
+2. Digite o comando para instalar as dependências: `flutter pub get`
+3. Para rodar o projeto em um emulador ou smartphone conectado ao computador, digite: `flutter run`
+4. Para gerar um arquivo de instalação (.apk), digite: `flutter build apk`
