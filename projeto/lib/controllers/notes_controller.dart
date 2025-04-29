@@ -46,8 +46,11 @@ class NotesController extends ChangeNotifier {
     return Future.value(false);
   }
 
-  Future<void> editNote(int index, String title) async {
-    final note = notes[index].copyWith(title: notes[index].title, text: notes[index].text);
+  Future<void> editNote(int index, String newText) async {
+    final note = notes[index].copyWith(
+          title: notes[index].title,
+          text: newText
+          );
     notes.replaceRange(index, index + 1, [note]);
   
     notifyListeners();

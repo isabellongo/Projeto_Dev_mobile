@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Note {
-  final String? id;
+  final String id;
   final String title;
   final String text;
   final DateTime lastEditedDateTime;
 
   Note({
-    this.id,
+    required this.id,
     required this.title,
     required this.text,
     required this.lastEditedDateTime,

@@ -6,6 +6,7 @@ class CardNoteWidget extends NoteWidget {
     super.key,
     required super.titleNote,
     required super.textNote,
+    required super.indexNote,
     required super.editNote,
     required super.deleteNote,
   });
@@ -34,8 +35,8 @@ class CardNoteWidget extends NoteWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
-                  onPressed: deleteNote,
-                ),
+                  onPressed: deleteNote
+                  ),
               ],
             ),
           ),

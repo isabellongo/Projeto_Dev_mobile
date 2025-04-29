@@ -37,6 +37,7 @@ class _NotesPageState extends State<NotesPage> {
               child: TileNoteWidget(
                 titleNote: notes[index].title,
                 textNote: notes[index].text,
+                indexNote: index,
                 editNote: () => controller.editNote(index,notes[index].text),
                 deleteNote: () => controller.removeNote(index),
               ),
