@@ -5,11 +5,20 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Projeto</string>
+	<string>pdfScanner</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>br.edu.utfpr.projetodevmobile.pdfscanner</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+    <string>com.googleusercontent.apps.992213750966-190cnv5fv9kcncag1o285hrm9g223mt5</string>
+    </array>
+    </dict>
+	</array>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
