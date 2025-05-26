@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,19 +14,71 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      final email = _emailController.text;
-      final password = _passwordController.text;
-
-      // Simular login
-      print("Email: $email, Password: $password");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login realizado com sucesso!')
-        )
+  Future<Text> signIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
 
       context.go('/notes');
+
+      return Text('Login realizado com sucesso!');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return Text('Usuário não encontrado.');
+      } else if (e.code == 'wrong-password') {
+        return Text('Senha incorreta.');
+      } else {
+        return Text('Falha de login: ${e.message}');
+      }
+    }
+  }
+
+  Future<Text> signUp(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      context.go('/notes');
+
+      return Text('Registro realizado com sucesso!');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return Text('Já existe uma conta com o mesmo email.');
+      } else if (e.code == 'weak-password') {
+        return Text('Senha não atende aos requisitos mínimos.');
+      } else {
+        return Text('Falha de registro: ${e.message}');
+      }
+    }
+  }
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+
+      Text loginResponse = await signIn(email, password);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: loginResponse)
+      );
+    }
+  }
+
+  Future<void> _register() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+
+      Text registerResponse = await signUp(email, password);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: registerResponse)
+      );
     }
   }
 
@@ -56,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'Email'),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter your email' : null,
+                        value!.isEmpty ? 'Por favor, insira o email.' : null,
                   ),
                   SizedBox(height: 16),
                   TextFormField(
@@ -64,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                     decoration: InputDecoration(labelText: 'Password'),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter your password' : null,
+                        value!.isEmpty ? 'Por favor, insira a senha.' : null,
                   ),
                   SizedBox(height: 24),
                   ElevatedButton(
@@ -73,6 +125,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: _login,
                     child: Text('Login'),
+                  ),
+                  SizedBox(height: 24),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(Colors.deepOrangeAccent)
+                    ),
+                    onPressed: _register,
+                    child: Text('Registro'),
                   )
                 ],
               ),
