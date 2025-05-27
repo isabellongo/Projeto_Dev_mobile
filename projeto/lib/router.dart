@@ -13,32 +13,23 @@ final router = GoRouter(
     final user = FirebaseAuth.instance.currentUser;
     final logginIn = state.uri.path == '/';
 
-    if(user == null && !logginIn) return '/';
-    if(user != null && logginIn) return '/notes';
+    if (user == null && !logginIn) return '/';
+    if (user != null && logginIn) return '/notes';
     return null;
   },
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const LoginPage(),
-    ),
-    GoRoute(
-      path: '/notes',
-      builder: (context, state) => const NotesPage(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const LoginPage()),
+    GoRoute(path: '/notes', builder: (context, state) => const NotesPage()),
     GoRoute(
       path: '/notes/:noteId',
       builder: (context, state) {
-        final noteId = 'placeholder';
+        final noteId = state.pathParameters['noteId'];
 
         if (noteId == null) return const Placeholder();
 
         return FullNotePage(noteId: noteId);
       },
     ),
-    GoRoute(
-      path: '/camera',
-      builder: (context, state) => const CameraPage(),
-    ),
+    GoRoute(path: '/camera', builder: (context, state) => const CameraPage()),
   ],
 );
