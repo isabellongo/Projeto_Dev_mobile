@@ -3,14 +3,28 @@ import 'package:flutter/foundation.dart';
 import '../models/note.dart';
 import '../repositories/notes_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'dart:async';
 
 class NotesController extends ChangeNotifier {
   final NotesRepository notesRepository;
   List<Note> notes = [];
   bool loading = true;
+  StreamSubscription<User?>? _authSub;
+
 
   NotesController(this.notesRepository) {
-    load();
+
+  _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user != null) {
+        load();
+      } else {
+        // Optionally clear notes on sign out
+        notes = [];
+        notifyListeners();
+      }
+    });
   }
 
   Future<List<Note>> load() async {
