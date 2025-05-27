@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdf_scanner/controllers/auth_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,6 +30,9 @@ class App extends StatelessWidget {
         Provider<NotesRepository>(create: (_) => RemoteNotesRepository()),
         ChangeNotifierProvider<NotesController>(
           create: (context) => NotesController(context.read<NotesRepository>()),
+        ),
+        ChangeNotifierProvider<AuthController>(
+          create: (context) => AuthController(),
         ),
       ],
       child: MaterialApp.router(
