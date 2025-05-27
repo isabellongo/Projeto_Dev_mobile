@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../controllers/notes_controller.dart';
 
 class AddNoteDialog extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
   final _title = TextEditingController();
 
   AddNoteDialog({super.key});

@@ -22,11 +22,6 @@ class NotesController extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 1));
 
     notes = await notesRepository.fetchAll();
-    print('TRYING NOW');
-    notes.forEach((note) {
-      print(note);  // calls note.toString()
-    });
-
     loading = false;
     notifyListeners();
 
