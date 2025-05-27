@@ -73,4 +73,8 @@ class RemoteNotesRepository extends NotesRepository {
       return false;
     }
   }
+
+  Future logOut() async{
+    await FirebaseAuth.instance.signOut();
+  }
 }

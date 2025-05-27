@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/tile_note_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,18 @@ class _NotesPageState extends State<NotesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todos os PDFs'),
+        actions: [
+        IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () async {
+            final controller = context.read<NotesController>();
+            if(mounted){
+              await controller.logOut();
+              context.go('/');
+            }
+          },
+        )
+      ],
       ),
       body: Consumer<NotesController>(builder: (context, controller, _) {
         final notes = controller.notes;

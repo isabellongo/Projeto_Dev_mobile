@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../models/note.dart';
 import '../repositories/notes_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NotesController extends ChangeNotifier {
   final NotesRepository notesRepository;
@@ -79,5 +80,9 @@ class NotesController extends ChangeNotifier {
 
   Note findById(String id) {
     return notes.firstWhere((note) => note.id == id);
+  }
+
+  Future logOut() async{
+    await FirebaseAuth.instance.signOut();
   }
 }
