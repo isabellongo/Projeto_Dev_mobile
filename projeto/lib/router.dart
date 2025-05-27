@@ -20,7 +20,7 @@ final router = GoRouter(
     GoRoute(
       path: '/notes/:noteId',
       builder: (context, state) {
-        final noteId = state.params['noteId'];
+        final noteId = 'placeholder';
 
         if (noteId == null) return const Placeholder();
 

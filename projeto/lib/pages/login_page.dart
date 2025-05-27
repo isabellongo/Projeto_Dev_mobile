@@ -21,7 +21,9 @@ class _LoginPageState extends State<LoginPage> {
         password: password,
       );
 
-      context.go('/notes');
+      if (mounted) {
+        context.go('/notes');
+      }
 
       return Text('Login realizado com sucesso!');
     } on FirebaseAuthException catch (e) {
@@ -42,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         password: password,
       );
 
-      context.go('/notes');
+      if(mounted) context.go('/notes');
 
       return Text('Registro realizado com sucesso!');
     } on FirebaseAuthException catch (e) {

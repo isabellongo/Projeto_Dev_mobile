@@ -82,7 +82,8 @@ class AddNoteDialog extends StatelessWidget {
                       icon: const Icon(Icons.check),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await controller.save(_title.text);
+                          bool successFlag = await controller.save(_title.text);
+                          if(successFlag){print('SUCESSO NO SAVE');} else {print('FALHA NO SAVE');}
                           if (context.mounted) context.go('/camera');
                         }
                       },

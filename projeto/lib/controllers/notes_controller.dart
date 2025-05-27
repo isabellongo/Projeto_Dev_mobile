@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/note.dart';
 import '../repositories/notes_repository.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class NotesController extends ChangeNotifier {
   final NotesRepository notesRepository;
@@ -21,6 +22,11 @@ class NotesController extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 1));
 
     notes = await notesRepository.fetchAll();
+    print('TRYING NOW');
+    notes.forEach((note) {
+      print(note);  // calls note.toString()
+    });
+
     loading = false;
     notifyListeners();
 
@@ -28,8 +34,9 @@ class NotesController extends ChangeNotifier {
   }
 
   Future<bool> save(String text) async {
+    final noteId = FirebaseDatabase.instance.ref().push().key ?? DateTime.now().millisecondsSinceEpoch.toString();
     final note = Note(
-      id: text,
+      id: noteId,
       title: 'Escaneado em ${DateTime.now()}',
       text: text,
       lastEditedDateTime: DateTime.now(),

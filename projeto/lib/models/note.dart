@@ -32,7 +32,7 @@ class Note {
       'id': id,
       'title': title,
       'text': text,
-      'lastEditedDateTime': lastEditedDateTime.toString(),
+      'lastEditedDateTime': lastEditedDateTime.toIso8601String(),
     };
   }
 
@@ -41,13 +41,15 @@ class Note {
       id: map['id'],
       title: map['title'] ?? '',
       text: map['text'] ?? '',
-      lastEditedDateTime: DateTime.fromMillisecondsSinceEpoch(map['lastEditedDateTime']),
+      lastEditedDateTime: DateTime.parse(map['lastEditedDateTime']),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Note.fromJson(String source) => Note.fromMap(json.decode(source));
+
+  
 
   @override
   String toString() {
