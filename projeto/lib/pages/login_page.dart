@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future<Text> signIn(String email, String password) async {
+  Future<Text> _signIn(String email, String password) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -37,14 +37,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<Text> signUp(String email, String password) async {
+  Future<Text> _signUp(String email, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if(mounted) context.go('/notes');
+      if (mounted) context.go('/notes');
 
       return Text('Registro realizado com sucesso!');
     } on FirebaseAuthException catch (e) {
@@ -63,11 +63,11 @@ class _LoginPageState extends State<LoginPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
 
-      Text loginResponse = await signIn(email, password);
+      Text loginResponse = await _signIn(email, password);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: loginResponse)
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: loginResponse));
     }
   }
 
@@ -76,11 +76,11 @@ class _LoginPageState extends State<LoginPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
 
-      Text registerResponse = await signUp(email, password);
+      Text registerResponse = await _signUp(email, password);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: registerResponse)
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: registerResponse));
     }
   }
 
@@ -97,7 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontSize: 40, color: Colors.deepOrange),
                 text: 'PDF',
                 children: const <TextSpan>[
-                  TextSpan(text: 'Scanner', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 60)),
+                  TextSpan(
+                    text: 'Scanner',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 60),
+                  ),
                 ],
               ),
             ),
@@ -109,21 +112,29 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'Email'),
-                    validator: (value) =>
-                        value!.isEmpty ? 'Por favor, insira o email.' : null,
+                    validator:
+                        (value) =>
+                            value!.isEmpty
+                                ? 'Por favor, insira o email.'
+                                : null,
                   ),
                   SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(labelText: 'Password'),
-                    validator: (value) =>
-                        value!.isEmpty ? 'Por favor, insira a senha.' : null,
+                    validator:
+                        (value) =>
+                            value!.isEmpty
+                                ? 'Por favor, insira a senha.'
+                                : null,
                   ),
                   SizedBox(height: 24),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(Colors.deepOrangeAccent)
+                      backgroundColor: WidgetStatePropertyAll<Color>(
+                        Colors.deepOrangeAccent,
+                      ),
                     ),
                     onPressed: _login,
                     child: Text('Login'),
@@ -131,11 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 24),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(Colors.deepOrangeAccent)
+                      backgroundColor: WidgetStatePropertyAll<Color>(
+                        Colors.deepOrangeAccent,
+                      ),
                     ),
                     onPressed: _register,
                     child: Text('Registro'),
-                  )
+                  ),
                 ],
               ),
             ),

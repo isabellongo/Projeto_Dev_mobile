@@ -3,13 +3,11 @@ import 'package:flutter/foundation.dart';
 import '../models/note.dart';
 import '../repositories/notes_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class NotesController extends ChangeNotifier {
   final NotesRepository notesRepository;
   List<Note> notes = [];
   bool loading = true;
-
 
   NotesController(this.notesRepository) {
     load();
@@ -30,7 +28,9 @@ class NotesController extends ChangeNotifier {
   }
 
   Future<bool> save(String text) async {
-    final noteId = FirebaseDatabase.instance.ref().push().key ?? DateTime.now().millisecondsSinceEpoch.toString();
+    final noteId =
+        FirebaseDatabase.instance.ref().push().key ??
+        DateTime.now().millisecondsSinceEpoch.toString();
     final note = Note(
       id: noteId,
       title: 'Escaneado em ${DateTime.now()}',
@@ -51,17 +51,20 @@ class NotesController extends ChangeNotifier {
 
   Future<void> editNote(int index, String newText) async {
     final note = notes[index].copyWith(
-          title: notes[index].title,
-          text: newText
-          );
+      title: notes[index].title,
+      text: newText,
+    );
     notes.replaceRange(index, index + 1, [note]);
-  
+
     notifyListeners();
 
     final success = await notesRepository.update(note);
 
     if (!success) {
-      final note = notes[index].copyWith(title: notes[index].title, text: notes[index].text);
+      final note = notes[index].copyWith(
+        title: notes[index].title,
+        text: notes[index].text,
+      );
       notes.replaceRange(index, index + 1, [note]);
       notifyListeners();
     }
@@ -80,9 +83,5 @@ class NotesController extends ChangeNotifier {
 
   Note findById(String id) {
     return notes.firstWhere((note) => note.id == id);
-  }
-
-  Future logOut() async{
-    await FirebaseAuth.instance.signOut();
   }
 }
