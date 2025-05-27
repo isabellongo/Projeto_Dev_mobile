@@ -31,21 +31,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot){
-        //loading de verificação
-        if (snapshot.connectionState == ConnectionState.waiting){
-          return const MaterialApp(home:Scaffold(body: Center(child: CircularProgressIndicator())));
-        }
-
-        //autenticação falhou
-        if(!snapshot.hasData) {
-            context.go('/');
-            return const SizedBox.shrink();
-        }
-          
-      
       return MultiProvider(
         providers: [
           Provider<NotesRepository>(
@@ -91,8 +76,5 @@ class App extends StatelessWidget {
         routerConfig: router,
       ),
     );
-  },
-  );
   }
-
 }
