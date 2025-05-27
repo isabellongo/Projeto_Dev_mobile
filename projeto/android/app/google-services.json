@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "307748362091",
+    "firebase_url": "https://pdfscanner-project-default-rtdb.firebaseio.com",
     "project_id": "pdfscanner-project",
     "storage_bucket": "pdfscanner-project.firebasestorage.app"
   },

@@ -13,14 +13,11 @@ class NotesController extends ChangeNotifier {
   bool loading = true;
   StreamSubscription<User?>? _authSub;
 
-
   NotesController(this.notesRepository) {
-
-  _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
+    _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user != null) {
         load();
       } else {
-        // Optionally clear notes on sign out
         notes = [];
         notifyListeners();
       }
@@ -30,9 +27,6 @@ class NotesController extends ChangeNotifier {
   Future<List<Note>> load() async {
     loading = true;
     notifyListeners();
-
-    //Simular o delay
-    await Future.delayed(const Duration(seconds: 1));
 
     notes = await notesRepository.fetchAll();
     loading = false;

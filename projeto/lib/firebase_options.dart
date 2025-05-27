@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '307748362091',
     projectId: 'pdfscanner-project',
     authDomain: 'pdfscanner-project.firebaseapp.com',
+    databaseURL: 'https://pdfscanner-project-default-rtdb.firebaseio.com',
     storageBucket: 'pdfscanner-project.firebasestorage.app',
     measurementId: 'G-0H19Y70ZD4',
   );
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:307748362091:android:42f373a41e9b09ed605e2e',
     messagingSenderId: '307748362091',
     projectId: 'pdfscanner-project',
+    databaseURL: 'https://pdfscanner-project-default-rtdb.firebaseio.com',
     storageBucket: 'pdfscanner-project.firebasestorage.app',
   );
 
@@ -69,7 +71,9 @@ class DefaultFirebaseOptions {
     appId: '1:307748362091:ios:1de669a9fd55d655605e2e',
     messagingSenderId: '307748362091',
     projectId: 'pdfscanner-project',
+    databaseURL: 'https://pdfscanner-project-default-rtdb.firebaseio.com',
     storageBucket: 'pdfscanner-project.firebasestorage.app',
     iosBundleId: 'com.example.projeto',
   );
+
 }
