@@ -1,9 +1,10 @@
 # Deploy with `firebase deploy`
+import base64
 
-from firebase_functions import firestore_fn, https_fn
+from firebase_admin import initialize_app
+from firebase_functions import https_fn
 from firebase_functions.options import set_global_options
-from firebase_admin import initialize_app, firestore
-import google.cloud.firestore
+from flask import jsonify, Request
 
 # For cost control, you can set the maximum number of containers that can be
 # running at the same time. This helps mitigate the impact of unexpected
@@ -14,43 +15,34 @@ set_global_options(max_instances=10)
 
 app = initialize_app()
 
-@https_fn.on_request()
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
-    return https_fn.Response("Hello world!")
 
 @https_fn.on_request()
-def add_message(req: https_fn.Request) -> https_fn.Response:
-    """Take the text parameter passed to this HTTP endpoint and insert it into
-    a new document in the messages collection."""
-    # Grab the text parameter.
-    original = req.args.get("text")
-    if original is None:
-        return https_fn.Response("No text parameter provided", status=400)
+def ocr_handler(req: Request):
+    if req.method != "POST":
+        return jsonify({"error": "Method not allowed"}), 405
 
-    firestore_client: google.cloud.firestore.Client = firestore.client()
+    if req.content_type.startswith("multipart/form-data"):
+        if 'image' not in req.files:
+            return jsonify({"error": "No image part"}), 400
+        image_file = req.files['image']
+        # Extract image from the data stream
+        # image =
 
-    # Push the new message into Cloud Firestore using the Firebase Admin SDK.
-    _, doc_ref = firestore_client.collection("messages").add({"original": original})
+    elif req.is_json:
+        data = req.get_json()
+        if 'image_base64' not in data:
+            return jsonify({"error": "Missing base64 image"}), 400
+        try:
+            image_data = base64.b64decode(data['image_base64'])
+            # Extract image from the data
+            # image =
+        except Exception as e:
+            return jsonify({"error": f"Invalid image data: {str(e)}"}), 400
+    else:
+        return jsonify({"error": "Unsupported Content-Type"}), 415
 
-    # Send back a message that we've successfully written the message
-    return https_fn.Response(f"Message with ID {doc_ref.id} added.")
-
-@firestore_fn.on_document_created(document="messages/{pushId}")
-def makeuppercase(event: firestore_fn.Event[firestore_fn.DocumentSnapshot | None]) -> None:
-    """Listens for new documents to be added to /messages. If the document has
-    an "original" field, creates an "uppercase" field containg the contents of
-    "original" in upper case."""
-
-    # Get the value of "original" if it exists.
-    if event.data is None:
-        return
     try:
-        original = event.data.get("original")
-    except KeyError:
-        # No "original" field, so do nothing.
-        return
-
-    # Set the "uppercase" field.
-    print(f"Uppercasing {event.params['pushId']}: {original}")
-    upper = original.upper()
-    event.data.reference.update({"uppercase": upper})
+        text = "Example"
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": "OCR failed", "details": str(e)}), 500
