@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'edit_note_dialog.dart';
 import 'note_widget.dart';
+import '../models/note.dart';
 
-class TileNoteWidget extends NoteWidget {
+class TileNoteWidget extends StatelessWidget {
+  final Note note;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+  final VoidCallback onAddPhoto;
+
   const TileNoteWidget({
     super.key,
-    required super.titleNote,
-    required super.textNote,
-    required super.indexNote,
-    required super.editNote,
-    required super.deleteNote,
+    required this.note,
+    required this.onEdit,
+    required this.onDelete,
+    required this.onAddPhoto,
   });
 
   void _confirmDelete(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog(
             title: const Text('Confirmar exclusão'),
             content: const Text('Tem certeza de que deseja excluir esta nota?'),
             actions: [
@@ -28,12 +32,16 @@ class TileNoteWidget extends NoteWidget {
                 child: const Text('Excluir'),
                 onPressed: () {
                   Navigator.of(ctx).pop(); // fecha o diálogo
-                  deleteNote(); // chama a função de deletar
+                  onDelete(); // chama a função de deletar
                 },
               ),
             ],
           ),
     );
+  }
+
+  void _showEditDialog(BuildContext context) {
+    onEdit();
   }
 
   @override
@@ -43,15 +51,9 @@ class TileNoteWidget extends NoteWidget {
       leading: IconButton(
         icon: const Icon(Icons.edit),
         onPressed:
-            () => showDialog(
-              context: context,
-              builder:
-                  (_) =>
-                      EditNoteDialog(indexNote: indexNote, textNote: textNote),
-            ),
+            () => _showEditDialog(context),
       ),
-      title: Text(textNote),
-      subtitle: Text(titleNote),
+      title: Text(note.title),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
         onPressed: () => _confirmDelete(context),

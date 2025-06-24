@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../controllers/notes_controller.dart';
 
 class AddNoteDialog extends StatelessWidget {
-  static final _formKey = GlobalKey<FormState>();
-  final _title = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
 
   AddNoteDialog({super.key});
 
@@ -16,8 +16,9 @@ class AddNoteDialog extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: 12,
-        right: 12,
+        left: 16,
+        right: 16,
+        top: 20,
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Container(
@@ -65,7 +66,7 @@ class AddNoteDialog extends StatelessWidget {
                       ),
                       label: const Text('Titulo'),
                     ),
-                    controller: _title,
+                    controller: _titleController,
                     validator: (value) {
                       if (value!.isEmpty) return "Informe o título!";
 
@@ -82,9 +83,12 @@ class AddNoteDialog extends StatelessWidget {
                       icon: const Icon(Icons.check),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          bool successFlag = await controller.save(_title.text);
-                          if(successFlag){print('SUCESSO NO SAVE');} else {print('FALHA NO SAVE');}
-                          if (context.mounted) context.go('/camera');
+                          final String? newNoteId = await controller.save(_titleController.text);
+                          if (context.mounted) {
+                            context.go('/camera/$newNoteId');
+                          }
+                        } else {
+                          print('FALHA NO SAVE');
                         }
                       },
                       label: const Text('Salvar'),

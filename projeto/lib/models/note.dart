@@ -3,27 +3,31 @@ import 'dart:convert';
 class Note {
   final String id;
   final String title;
-  final String text;
+  String? text;
   final DateTime lastEditedDateTime;
+  final List<String> imagePaths;
 
   Note({
     required this.id,
     required this.title,
-    required this.text,
+    this.text,
     required this.lastEditedDateTime,
-  });
+    List<String>? imagePaths,
+  }) : imagePaths = imagePaths ?? [];
 
   Note copyWith({
     String? id,
     String? title,
     String? text,
-    DateTime? lastEditedDateTime
+    DateTime? lastEditedDateTime,
+    List<String>? imagePaths,
   }) {
     return Note(
       id: id ?? this.id,
       title: title ?? this.title,
       text: text ?? this.text,
       lastEditedDateTime: lastEditedDateTime ?? this.lastEditedDateTime,
+      imagePaths: imagePaths ?? this.imagePaths,
     );
   }
 
@@ -33,6 +37,8 @@ class Note {
       'title': title,
       'text': text,
       'lastEditedDateTime': lastEditedDateTime.toIso8601String(),
+      // --- FIX 1: Use the plural key 'imagePaths' when saving ---
+      if (imagePaths.isNotEmpty) 'imagePaths': imagePaths,
     };
   }
 
@@ -40,16 +46,19 @@ class Note {
     return Note(
       id: map['id'],
       title: map['title'] ?? '',
-      text: map['text'] ?? '',
+      // FIX 2: Allow text to be null if it's missing from the map
+      text: map['text'],
       lastEditedDateTime: DateTime.parse(map['lastEditedDateTime']),
+      // --- FIX 3: Check for and read from the same plural key 'imagePaths' ---
+      imagePaths: map['imagePaths'] != null
+          ? List<String>.from(map['imagePaths'])
+          : [],
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Note.fromJson(String source) => Note.fromMap(json.decode(source));
-
-  
 
   @override
   String toString() {
@@ -59,16 +68,12 @@ class Note {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
-    return other is Note &&
-        other.id == id &&
-        other.title == title &&
-        other.text == text &&
-        other.lastEditedDateTime == lastEditedDateTime;
+    return other is Note && other.id == id;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ title.hashCode ^ text.hashCode ^ lastEditedDateTime.hashCode;
+    // A better hashcode implementation for consistency
+    return id.hashCode;
   }
 }

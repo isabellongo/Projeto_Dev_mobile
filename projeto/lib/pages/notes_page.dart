@@ -5,6 +5,7 @@ import '../controllers/auth_controller.dart';
 import '../controllers/notes_controller.dart';
 import '../widgets/tile_note_widget.dart';
 import '../widgets/add_note_dialog.dart';
+import '../widgets/edit_note_dialog.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -20,6 +21,17 @@ class _NotesPageState extends State<NotesPage> {
     if (mounted) {
       context.go('/');
     }
+  }
+
+  void _showEditDialog(String noteId, String currentText) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Important for showing above the keyboard
+      builder: (_) => EditNoteDialog(
+        noteId: noteId,
+        currentText: currentText,
+      ),
+    );
   }
 
   @override
@@ -44,24 +56,25 @@ class _NotesPageState extends State<NotesPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: ListView.builder(
               itemCount: notes.length,
-              itemBuilder:
-                  (context, index) => Card(
+              itemBuilder:(context, index) {
+                final note = notes[index];
+              
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 6.0),
                     child: TileNoteWidget(
-                      titleNote: notes[index].title,
-                      textNote: notes[index].text,
-                      indexNote: index,
-                      editNote:
-                          () => controller.editNote(index, notes[index].text),
-                      deleteNote: () => controller.removeNote(index),
+                      note: note,
+                      onEdit: () => _showEditDialog(note.id, note.text ?? ''),
+                      onDelete: () => controller.removeNote(note.id),
+                      onAddPhoto: () => context.go ('/camera/${note.id}'),
                     ),
-                  ),
+                  );
+              },
             ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed:
-            () => showModalBottomSheet(
+        onPressed: () => showModalBottomSheet(
               context: context,
               isScrollControlled: true,
               builder: (_) => AddNoteDialog(),

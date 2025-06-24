@@ -30,6 +30,14 @@ final router = GoRouter(
         return FullNotePage(noteId: noteId);
       },
     ),
-    GoRoute(path: '/camera', builder: (context, state) => const CameraPage()),
+    GoRoute(
+    path: '/camera/:noteId',
+    builder: (context, state) {
+      final noteId = state.pathParameters['noteId'];
+      if(noteId == null) {
+        return const Scaffold(body: Center(child: Text('Note ID is missing')));
+      }
+      return CameraPage(noteId: noteId);
+    }),
   ],
 );

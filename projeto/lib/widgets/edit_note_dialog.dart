@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import '../controllers/notes_controller.dart';
 
 class EditNoteDialog extends StatefulWidget{
-  final int indexNote;
-  final String textNote;
+  final String noteId;
+  final String currentText;
 
   const EditNoteDialog({
     super.key,
-    required this.indexNote,
-    required this.textNote,
+    required this.noteId,
+    required this.currentText,
   });
 
   @override
@@ -25,7 +25,7 @@ class _EditNoteDialogState extends State<EditNoteDialog>{
   @override
   void initState(){
     super.initState();
-    _textController = TextEditingController(text: widget.textNote);
+    _textController = TextEditingController(text: widget.currentText);
   }
 
   @override
@@ -63,7 +63,7 @@ class _EditNoteDialogState extends State<EditNoteDialog>{
           child: Text('SUBMIT'),
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              await controller.editNote(widget.indexNote,_textController.text);
+              await controller.editNote(widget.noteId,_textController.text);
               if (context.mounted){
                Navigator.of(context).pop();
                ScaffoldMessenger.of(context).showSnackBar(
