@@ -35,14 +35,14 @@ class NotesController extends ChangeNotifier {
     return notes;
   }
 
-  Future<bool> save(String text) async {
+  Future<bool> save(String title) async {
     final noteId =
         FirebaseDatabase.instance.ref().push().key ??
         DateTime.now().millisecondsSinceEpoch.toString();
     final note = Note(
       id: noteId,
-      title: 'Escaneado em ${DateTime.now()}',
-      text: text,
+      title: title,
+      text: 'Escaneado em ${DateTime.now()}',
       lastEditedDateTime: DateTime.now(),
     );
 
@@ -90,6 +90,15 @@ class NotesController extends ChangeNotifier {
   }
 
   Note findById(String id) {
-    return notes.firstWhere((note) => note.id == id);
+    return notes.firstWhere(
+      (n) => n.id == id,
+      orElse:
+          () => Note(
+            id: '',
+            title: 'Nota não encontrada',
+            text: 'Nenhuma nota com esse ID.',
+            lastEditedDateTime: DateTime.now(),
+          ),
+    );
   }
 }

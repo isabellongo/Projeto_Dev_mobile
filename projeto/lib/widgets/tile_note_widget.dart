@@ -50,8 +50,8 @@ class TileNoteWidget extends NoteWidget {
                       EditNoteDialog(indexNote: indexNote, textNote: textNote),
             ),
       ),
-      title: Text(textNote),
-      subtitle: Text(titleNote),
+      title: Text(titleNote),
+      subtitle: Text(textNote),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
         onPressed: () => _confirmDelete(context),
