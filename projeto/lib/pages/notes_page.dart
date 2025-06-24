@@ -46,13 +46,19 @@ class _NotesPageState extends State<NotesPage> {
               itemCount: notes.length,
               itemBuilder:
                   (context, index) => Card(
-                    child: TileNoteWidget(
-                      titleNote: notes[index].title,
-                      textNote: notes[index].text,
-                      indexNote: index,
-                      editNote:
-                          () => controller.editNote(index, notes[index].text),
-                      deleteNote: () => controller.removeNote(index),
+                    child: GestureDetector(
+                      onTap: () {
+                        final noteId = notes[index].id.toString();
+                        context.push('/notes/$noteId');
+                      },
+                      child: TileNoteWidget(
+                        titleNote: notes[index].title,
+                        textNote: notes[index].text,
+                        indexNote: index,
+                        editNote:
+                            () => controller.editNote(index, notes[index].text),
+                        deleteNote: () => controller.removeNote(index),
+                      ),
                     ),
                   ),
             ),
